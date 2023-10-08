@@ -2,12 +2,10 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import VideoContainer from './VideoContainer';
 
-const Body = () => {
+const Body = ({ toggler }) => {
   return (
-    <div>
-      {' '}
-      <p className="text-3xl font-bold text-red-600">Body</p>
-      <Sidebar />
+    <div className="flex">
+      <Sidebar visibility={toggler} />
       <VideoContainer />
     </div>
   );

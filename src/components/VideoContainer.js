@@ -4,7 +4,7 @@ import GenreButtons from './GenreButtons';
 
 const VideoContainer = () => {
   return (
-    <div>
+    <div className="p-10">
       <p>VideoContainer</p>
       <VideoGrid />
       <GenreButtons />

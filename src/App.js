@@ -1,11 +1,17 @@
+import { useState } from 'react';
 import Body from './components/Body';
 import Header from './components/Header';
 
 function App() {
+  const [sidebarVisibility, setSidebarVisibility] = useState(true);
+  const toggle = () => {
+    setSidebarVisibility(!sidebarVisibility);
+  };
+
   return (
     <>
-      <Header />
-      <Body />
+      <Header toggler={toggle} />
+      <Body toggler={sidebarVisibility} />
     </>
   );
 }
