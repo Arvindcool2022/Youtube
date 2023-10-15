@@ -1,20 +1,17 @@
-import React from 'react';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
 
 const Header = () => {
-  const isVisible = useSelector(store => store.sideBar.visibility);
-
   const dispatch = useDispatch();
   const HandleToggle = () => {
-    dispatch(toggleVisibility(!isVisible));
+    dispatch(toggleVisibility());
   };
 
   return (
-    <header className="flex justify-between items-center p-4 border-b-[1px] border-gray-300">
+    <header className="flex justify-between items-center p-4 ">
       <div className="flex">
         <img
           className="h-8 cursor-pointer"
@@ -22,8 +19,14 @@ const Header = () => {
           alt="menu"
           onClick={HandleToggle}
         />
-        <img className="h-8 ps-3 me-1" src={logo} alt="youtube-logo" />
-        <p className=" font-mono text-2xl font-semibold">YOUTUBE</p>
+        <img
+          className="h-8 ps-3 me-1 cursor-pointer"
+          src={logo}
+          alt="youtube-logo"
+        />
+        <p className=" font-mono text-2xl font-semibold cursor-pointer">
+          YOUTUBE
+        </p>
       </div>
       <div className="flex flex-grow justify-center">
         <input
@@ -39,7 +42,7 @@ const Header = () => {
         </button>
       </div>
       <div className="">
-        <img className="h-8" src={userIcon} alt="user-icon" />
+        <img className="h-8 cursor-pointer" src={userIcon} alt="user-icon" />
       </div>
     </header>
   );

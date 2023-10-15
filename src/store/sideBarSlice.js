@@ -4,8 +4,8 @@ const sideBarSlice = createSlice({
   name: 'sideBar', // Name should be a string, e.g., 'sideBar'
   initialState: { visibility: true },
   reducers: {
-    toggleVisibility: (state, action) => {
-      state.visibility = action.payload;
+    toggleVisibility: state => {
+      state.visibility = !state.visibility;
     }
   }
 });
