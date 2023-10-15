@@ -2,8 +2,17 @@ import React from 'react';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleVisibility } from '../store/sideBarSlice';
 
-const Header = ({ toggler }) => {
+const Header = () => {
+  const isVisible = useSelector(store => store.sideBar.visibility);
+
+  const dispatch = useDispatch();
+  const HandleToggle = () => {
+    dispatch(toggleVisibility(!isVisible));
+  };
+
   return (
     <header className="flex justify-between items-center p-4 border-b-[1px] border-gray-300">
       <div className="flex">
@@ -11,9 +20,7 @@ const Header = ({ toggler }) => {
           className="h-8 cursor-pointer"
           src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"
           alt="menu"
-          onClick={() => {
-            toggler();
-          }}
+          onClick={HandleToggle}
         />
         <img className="h-8 ps-3 me-1" src={logo} alt="youtube-logo" />
         <p className=" font-mono text-2xl font-semibold">YOUTUBE</p>

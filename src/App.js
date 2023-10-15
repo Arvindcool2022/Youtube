@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import Body from './components/Body';
 import Header from './components/Header';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 function App() {
-  const [sidebarVisibility, setSidebarVisibility] = useState(true);
-  const toggle = () => {
-    setSidebarVisibility(!sidebarVisibility);
-  };
-
   return (
-    <>
-      <Header toggler={toggle} />
-      <Body toggler={sidebarVisibility} />
-    </>
+    <Provider store={store}>
+      <Header />
+      <Body />
+    </Provider>
   );
 }
 
