@@ -25,6 +25,8 @@ const VideoContainer = () => {
 
   if (videoData.length === 0) return <h1>loading...</h1>;
 
+  console.log(videoData[0]);
+
   return (
     <section className="px-5 flex-grow">
       <ButtonList />

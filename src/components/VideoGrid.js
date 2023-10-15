@@ -50,7 +50,8 @@ const VideoGrid = ({ info }) => {
       title = 'n/a',
       publishedAt,
       thumbnails: {
-        medium: { url: thumbnailIMG }
+        medium: { url: thumbnailIMG },
+        default: { url: channelIcon }
       }
     },
     statistics: { viewCount = 'n/a' }
@@ -74,18 +75,24 @@ const VideoGrid = ({ info }) => {
       <div className="max-w-[480px] mb-4">
         {' '}
         <img
-          className=" object-cover rounded-xl"
+          className=" object-cover w-full rounded-xl hover:rounded-none"
           src={thumbnailIMG}
           alt="thumbnail"
         />
       </div>
-      <div>
-        <img />
+      <div className="flex p-2 gap-4">
+        <img
+          className="h-8 rounded-full aspect-square object-cover"
+          src={channelIcon}
+          alt="user-icon"
+        />
         <div>
-          <p> {title}</p>
-          <p>{channelTitle}</p>
-          <p> {displayViews} views</p>
-          <p>{time} ago</p>
+          <p className="font-semibold leading-snug"> {title}</p>
+          <p className=" text-stone-500 mt-1">{channelTitle}</p>
+          <div className="flex gap-3 text-stone-500 text-sm">
+            <p> {displayViews} views</p>
+            <p>{time} ago</p>
+          </div>
         </div>
       </div>
     </div>
