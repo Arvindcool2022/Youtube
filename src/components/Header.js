@@ -24,6 +24,7 @@ const Header = () => {
           src={logo}
           alt="youtube-logo"
         />
+
         <p className=" font-mono text-2xl font-semibold cursor-pointer">
           YOUTUBE
         </p>

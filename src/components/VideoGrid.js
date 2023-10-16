@@ -50,8 +50,7 @@ const VideoGrid = ({ info }) => {
       title = 'n/a',
       publishedAt,
       thumbnails: {
-        medium: { url: thumbnailIMG },
-        default: { url: channelIcon }
+        medium: { url: thumbnailIMG }
       }
     },
     statistics: { viewCount = 'n/a' }
@@ -65,14 +64,15 @@ const VideoGrid = ({ info }) => {
     const currentDate = new Date();
     const difference = currentDate - publishedDate;
     setTimeDifference(difference);
-  }, [info]);
+    // eslint-disable-next-line
+  }, [publishedAt]);
 
   const time = timeCalc(timeDifference) || 'n/a';
   const displayViews = calcViews(viewCount);
 
   return (
-    <div className="text-neutral-800 rounded-xl cursor-pointer">
-      <div className="max-w-[480px] mb-4">
+    <div className="text-neutral-800 rounded-xl w-full cursor-pointer">
+      <div className="min-w-full mb-4">
         {' '}
         <img
           className=" object-cover w-full rounded-xl hover:rounded-none"
@@ -83,7 +83,7 @@ const VideoGrid = ({ info }) => {
       <div className="flex p-2 gap-4">
         <img
           className="h-8 rounded-full aspect-square object-cover"
-          src={channelIcon}
+          src={thumbnailIMG}
           alt="user-icon"
         />
         <div>

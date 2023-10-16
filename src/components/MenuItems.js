@@ -1,6 +1,11 @@
+import { Link } from 'react-router-dom';
+
 const MenuItems = () => {
   return (
     <div className="capitalize py-4 px-8 ">
+      <Link to={'/'}>
+        <p>home</p>
+      </Link>
       <h1 className="text-xl font-semibold py-4">subcriptions</h1>
       <ul className="">
         <li className="cursor-pointer">music</li>

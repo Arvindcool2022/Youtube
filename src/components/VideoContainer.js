@@ -2,6 +2,7 @@ import VideoGrid from './VideoGrid';
 import ButtonList from './ButtonList';
 import { useEffect, useState } from 'react';
 import { YOUTUBE_API } from '../utils/contants';
+import { Link } from 'react-router-dom';
 
 const VideoContainer = () => {
   const [videoData, setVideoData] = useState([]);
@@ -25,15 +26,17 @@ const VideoContainer = () => {
 
   if (videoData.length === 0) return <h1>loading...</h1>;
 
-  console.log(videoData[0]);
+  // console.log(videoData[0]);
 
   return (
     <section className="px-5 flex-grow">
       <ButtonList />
-      <section className="grid grid-cols-auto-fit-250 gap-8 justify-items-center justify-center">
+      <section className="grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mx-2 sm:mx-0 justify-items-center justify-center">
         {' '}
         {videoData.map(item => (
-          <VideoGrid key={item?.id} info={item} />
+          <Link to={'watch?v=' + item.id} key={item?.id}>
+            <VideoGrid info={item} />
+          </Link>
         ))}
       </section>
     </section>

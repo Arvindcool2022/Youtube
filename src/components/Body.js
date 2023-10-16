@@ -1,11 +1,11 @@
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import VideoContainer from './VideoContainer';
 
 const Body = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <VideoContainer />
+      <Outlet />
     </div>
   );
 };
