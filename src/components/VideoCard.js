@@ -43,7 +43,7 @@ const timeCalc = timeDifference => {
   return time;
 };
 
-const VideoGrid = ({ info }) => {
+const VideoCard = ({ info }) => {
   const {
     snippet: {
       channelTitle = 'n/a',
@@ -99,4 +99,17 @@ const VideoGrid = ({ info }) => {
   );
 };
 
-export default VideoGrid;
+const ADVideoCard = ({ info }) => {
+  return (
+    <div className="bg-slate-200 rounded-lg">
+      <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute">
+        Promoted
+      </span>
+      <VideoCard info={info} />
+    </div>
+  );
+};
+
+export { ADVideoCard };
+
+export default VideoCard;

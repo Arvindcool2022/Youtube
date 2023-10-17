@@ -3,11 +3,21 @@ import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
 import { useDispatch } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
-
 const Header = () => {
   const dispatch = useDispatch();
-  const HandleToggle = () => {
-    dispatch(toggleVisibility());
+  const sideBarToggle = () => dispatch(toggleVisibility());
+
+  //# debouncing the search
+  let counter = 0;
+  let timer;
+  const getData = (searchTerm, counter) => console.log(searchTerm, counter); // fetch api comes here
+  const debounceSearch = e => {
+    clearTimeout(timer);
+    if (e.target.value === '') return null;
+
+    timer = setTimeout(() => {
+      getData(e.target.value, ++counter);
+    }, 300);
   };
 
   return (
@@ -17,7 +27,7 @@ const Header = () => {
           className="h-8 cursor-pointer"
           src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"
           alt="menu"
-          onClick={HandleToggle}
+          onClick={sideBarToggle}
         />
         <img
           className="h-8 ps-3 me-1 cursor-pointer"
@@ -33,6 +43,7 @@ const Header = () => {
         <input
           className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid border-gray-500 ps-3 md:w-1/3"
           type="text"
+          onKeyUp={debounceSearch}
         />
         <button className="group px-5 py-2 bg-gray-200 capitalize border border-solid border-gray-500 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-gray-300 ">
           <img

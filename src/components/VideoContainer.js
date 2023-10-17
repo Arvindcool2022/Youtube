@@ -1,4 +1,4 @@
-import VideoGrid from './VideoGrid';
+import VideoCard, { ADVideoCard } from './VideoCard';
 import ButtonList from './ButtonList';
 import { useEffect, useState } from 'react';
 import { YOUTUBE_API } from '../utils/contants';
@@ -27,15 +27,20 @@ const VideoContainer = () => {
   if (videoData.length === 0) return <h1>loading...</h1>;
 
   // console.log(videoData[0]);
+  const promotedVideo = videoData[Math.floor(Math.random() * (49 - 0 + 1) + 0)];
 
   return (
     <section className="px-5 flex-grow">
       <ButtonList />
       <section className="grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mx-2 sm:mx-0 justify-items-center justify-center">
-        {' '}
+        {
+          <Link to={'watch?v=' + promotedVideo.id} key={promotedVideo?.id}>
+            <ADVideoCard info={promotedVideo} />
+          </Link>
+        }
         {videoData.map(item => (
           <Link to={'watch?v=' + item.id} key={item?.id}>
-            <VideoGrid info={item} />
+            <VideoCard info={item} />
           </Link>
         ))}
       </section>
