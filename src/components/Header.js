@@ -1,30 +1,35 @@
+import { useEffect, useState } from 'react';
+import { SUGGEST_API } from '../utils/contants';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleVisibility } from '../store/sideBarSlice';
+
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
-import { useDispatch } from 'react-redux';
-import { toggleVisibility } from '../store/sideBarSlice';
-import { SUGGEST_API } from '../utils/contants';
-import { useEffect, useState } from 'react';
+import { cacheResults } from '../store/searchSlice';
+
 const Header = () => {
-  //# SideBar Toggle.
+  //* SideBar Toggle.
   const dispatch = useDispatch();
   const sideBarToggle = () => dispatch(toggleVisibility());
 
-  //# search suggestions
+  //* Search Suggestions
   const [searchQuery, setSearchQuery] = useState('');
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestion, setShowSuggestion] = useState(false);
 
+  //# search in cache before api call
+  const searchCache = useSelector(store => store.search);
+
   useEffect(() => {
-    if (searchQuery) {
+    if (searchCache[searchQuery]) setSuggestions(searchCache[searchQuery]);
+    else if (searchQuery) {
       //# debouncing the search
       if (debounceTimer) clearTimeout(debounceTimer);
 
-      const newDebounceTimer = setTimeout(() => {
-        getData();
-      }, 300);
+      const newDebounceTimer = setTimeout(() => getData(), 300);
       setDebounceTimer(newDebounceTimer);
     } else setSuggestions([]);
 
@@ -47,6 +52,8 @@ const Header = () => {
         const suggestions = data[1].map(item => item[0]);
         // console.log(searchQuery, suggestions);
         setSuggestions(suggestions);
+
+        dispatch(cacheResults({ [searchQuery]: suggestions }));
       } else {
         console.log(text);
         throw new Error('response not in expected format');
@@ -85,7 +92,7 @@ const Header = () => {
             </p>
           )}
           {suggestions.length > 0 && showSuggestion && (
-            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 overflow-hidden">
+            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden">
               {suggestions.map(item => (
                 <li
                   className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50"

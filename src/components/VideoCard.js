@@ -101,8 +101,8 @@ const VideoCard = ({ info }) => {
 
 const ADVideoCard = ({ info }) => {
   return (
-    <div className="bg-slate-200 rounded-lg">
-      <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute">
+    <div className="bg-slate-200 rounded-lg w-full">
+      <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute z-0">
         Promoted
       </span>
       <VideoCard info={info} />

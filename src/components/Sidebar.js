@@ -1,13 +1,7 @@
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import MenuItems from './MenuItems';
-import { useDispatch, useSelector } from 'react-redux';
-import { visibile } from '../store/sideBarSlice';
 
 const Sidebar = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(visibile());
-  }, []);
   const isVisible = useSelector(store => store.sideBar.visibility);
 
   //# early return pattern
