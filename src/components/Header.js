@@ -12,36 +12,40 @@ const Header = () => {
 
   //# search suggestions
   const [searchQuery, setSearchQuery] = useState('');
-  const [timer, setTimer] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
 
   useEffect(() => {
     if (searchQuery) {
       //# debouncing the search
-      if (timer) clearTimeout(timer);
+      if (debounceTimer) clearTimeout(debounceTimer);
 
-      const newTimer = setTimeout(() => {
-        getData(searchQuery);
+      const newDebounceTimer = setTimeout(() => {
+        getData();
       }, 300);
-      setTimer(newTimer);
+      setDebounceTimer(newDebounceTimer);
     } else setSuggestions([]);
+
+    // return () => {clearTimeout(debounceTimer);}; doesn't work well
   }, [searchQuery]);
 
   useEffect(() => {
     if (searchQuery === '') setSuggestions([]);
-  }, [loading]);
+  }, [isLoading]);
 
-  const getData = async searchTerm => {
+  const getData = async () => {
     try {
-      setLoading(true);
-      const response = await fetch(SUGGEST_API + searchTerm);
+      setIsLoading(true);
+      const response = await fetch(SUGGEST_API + searchQuery);
       if (!response.ok) throw new Error('Failed to fetch data');
       const text = await response.text();
       if (text.startsWith('window.google.ac.h(')) {
         const jsonString = text.slice('window.google.ac.h('.length, -1);
         const data = JSON.parse(jsonString);
         const suggestions = data[1].map(item => item[0]);
+        // console.log(searchQuery, suggestions);
         setSuggestions(suggestions);
       } else {
         console.log(text);
@@ -50,12 +54,12 @@ const Header = () => {
     } catch (error) {
       console.error('Error fetching video data:', error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <header className="flex justify-between items-center p-4 ">
+    <header className="flex justify-between items-center py-4 px-2">
       <div className="flex">
         <img
           className="h-8 cursor-pointer"
@@ -69,21 +73,24 @@ const Header = () => {
           alt="youtube-logo"
         />
 
-        <p className=" font-mono text-2xl font-semibold cursor-pointer">
+        <p className="font-mono text-2xl font-semibold cursor-pointer hidden sm:block">
           YOUTUBE
         </p>
       </div>
-      <div className="flex flex-grow justify-center">
+      <div className="flex flex-grow justify-center mx-1">
         <div className="flex flex-grow sm:flex-grow-0 sm:w-3/4 md:w-1/2 relative">
-          {loading && (
+          {isLoading && (
             <p className="p-3 text-xl rounded-2xl font-semibold bg-gray-200 absolute text-center left-0 right-0 top-11">
               Loading..
             </p>
           )}
-          {suggestions.length === 0 ? null : (
-            <ul className="py-3 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 overflow-hidden">
+          {suggestions.length > 0 && showSuggestion && (
+            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 overflow-hidden">
               {suggestions.map(item => (
-                <li className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50">
+                <li
+                  className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50"
+                  key={item}
+                >
                   {item}
                 </li>
               ))}
@@ -94,8 +101,10 @@ const Header = () => {
             type="text"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestion(true)}
+            onBlur={() => setShowSuggestion(false)}
           />
-          <button className="group px-5 py-2 bg-gray-200 capitalize border border-solid border-gray-500 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-gray-300 ">
+          <button className="group px-4 py-2 bg-gray-200 capitalize border border-solid border-gray-500 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-gray-300 ">
             <img
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
               src={searchIcon}

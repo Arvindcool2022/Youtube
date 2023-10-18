@@ -8,7 +8,7 @@ const WatchPage = () => {
   useEffect(() => {
     dispatch(invisibile());
   }, []);
-  const [params, setParams] = useSearchParams();
+  const [params] = useSearchParams();
   console.log(params.get('v'));
 
   return (
