@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, Outlet } from 'react-router-dom';
 import './index.css';
 import Body from './components/Body';
 import Header from './components/Header';
@@ -14,7 +14,7 @@ function App() {
   return (
     <Provider store={store}>
       <Header />
-      <Body />
+      <Outlet />
     </Provider>
   );
 }
