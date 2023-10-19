@@ -14,7 +14,7 @@ function App() {
   return (
     <Provider store={store}>
       <Header />
-      <RouterProvider router={appRouter} />
+      <Body />
     </Provider>
   );
 }
@@ -22,29 +22,21 @@ function App() {
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element: <Body />,
+    element: <App />,
     children: [
-      { path: '/', element: <VideoContainer /> },
-      { path: 'watch', element: <WatchPage /> }
-    ],
-    errorElement: <Error />
+      {
+        path: '/',
+        element: <Body />,
+        children: [
+          { path: '/', element: <VideoContainer /> },
+          { path: 'watch', element: <WatchPage /> }
+        ],
+        errorElement: <Error />
+      }
+    ]
   }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
 
-/* 
-header
-main
- sidebar
-   menu/nav items
- video container
-   genre btns
-   video grid
-*/
+root.render(<RouterProvider router={appRouter} />);

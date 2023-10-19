@@ -7,6 +7,7 @@ import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
 import { cacheResults } from '../store/searchSlice';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   //* SideBar Toggle.
@@ -76,11 +77,13 @@ const Header = () => {
           alt="menu"
           onClick={sideBarToggle}
         />
-        <img
-          className="h-8 ps-3 me-1 cursor-pointer"
-          src={logo}
-          alt="youtube-logo"
-        />
+        <Link to={'/'}>
+          <img
+            className="h-8 ps-3 me-1 cursor-pointer"
+            src={logo}
+            alt="youtube-logo"
+          />
+        </Link>
 
         <p className="font-mono text-2xl font-semibold cursor-pointer hidden sm:block">
           YOUTUBE
@@ -122,7 +125,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <div className="">
+      <div className="hidden sm:block">
         <img className="h-8 cursor-pointer" src={userIcon} alt="user-icon" />
       </div>
     </header>
