@@ -24,8 +24,10 @@ const Header = () => {
   const searchCache = useSelector(store => store.search);
 
   useEffect(() => {
-    if (searchCache[searchQuery]) setSuggestions(searchCache[searchQuery]);
-    else if (searchQuery) {
+    if (searchCache[searchQuery]) {
+      console.log('from cache', searchCache);
+      setSuggestions(searchCache[searchQuery]);
+    } else if (searchQuery) {
       //# debouncing the search
       if (debounceTimer) clearTimeout(debounceTimer);
 
@@ -50,7 +52,7 @@ const Header = () => {
         const jsonString = text.slice('window.google.ac.h('.length, -1);
         const data = JSON.parse(jsonString);
         const suggestions = data[1].map(item => item[0]);
-        // console.log(searchQuery, suggestions);
+        console.log('from api:', searchQuery, suggestions);
         setSuggestions(suggestions);
 
         dispatch(cacheResults({ [searchQuery]: suggestions }));

@@ -1,7 +1,9 @@
-import { useDispatch } from 'react-redux';
-import { invisibile } from '../store/sideBarSlice';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { invisibile } from '../store/sideBarSlice';
+import { COMMENTS_EXAMPLE } from '../utils/contants';
+import CommentContainer from './CommentContainer';
 
 const WatchPage = () => {
   const dispatch = useDispatch();
@@ -9,20 +11,19 @@ const WatchPage = () => {
     dispatch(invisibile());
   }, []);
   const [params] = useSearchParams();
-  console.log(params.get('v'));
-
   return (
     <div>
       <iframe
         className="m-4"
-        width="1044"
-        height="550"
+        width="963"
+        height="554"
         src={`https://www.youtube.com/embed/${params.get('v')}`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       ></iframe>
+      <CommentContainer data={COMMENTS_EXAMPLE} />
     </div>
   );
 };
