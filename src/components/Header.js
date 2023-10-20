@@ -25,10 +25,8 @@ const Header = () => {
   const searchCache = useSelector(store => store.search);
 
   useEffect(() => {
-    if (searchCache[searchQuery]) {
-      console.log('from cache', searchCache);
-      setSuggestions(searchCache[searchQuery]);
-    } else if (searchQuery) {
+    if (searchCache[searchQuery]) setSuggestions(searchCache[searchQuery]);
+    else if (searchQuery) {
       //# debouncing the search
       if (debounceTimer) clearTimeout(debounceTimer);
 
@@ -49,11 +47,13 @@ const Header = () => {
       const response = await fetch(SUGGEST_API + searchQuery);
       if (!response.ok) throw new Error('Failed to fetch data');
       const text = await response.text();
+
+      //# Check Format
       if (text.startsWith('window.google.ac.h(')) {
         const jsonString = text.slice('window.google.ac.h('.length, -1);
+
         const data = JSON.parse(jsonString);
         const suggestions = data[1].map(item => item[0]);
-        console.log('from api:', searchQuery, suggestions);
         setSuggestions(suggestions);
 
         dispatch(cacheResults({ [searchQuery]: suggestions }));
@@ -85,9 +85,11 @@ const Header = () => {
           />
         </Link>
 
-        <p className="font-mono text-2xl font-semibold cursor-pointer hidden sm:block">
-          YOUTUBE
-        </p>
+        <Link to={'/'}>
+          <p className="font-mono tracking-tighter text-2xl font-semibold cursor-pointer hidden sm:block">
+            YouTube
+          </p>
+        </Link>
       </div>
       <div className="flex flex-grow justify-center mx-1">
         <div className="flex flex-grow sm:flex-grow-0 sm:w-3/4 md:w-1/2 relative">

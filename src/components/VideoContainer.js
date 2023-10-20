@@ -26,7 +26,6 @@ const VideoContainer = () => {
 
   if (videoData.length === 0) return <h1>loading...</h1>;
 
-  // console.log(videoData[0]);
   const promotedVideo = videoData[Math.floor(Math.random() * (49 - 0 + 1) + 0)];
 
   return (
