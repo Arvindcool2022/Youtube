@@ -1,21 +1,18 @@
-import { Provider } from 'react-redux';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-
-import './index.css';
-
-import Body from './components/Body';
-import Header from './components/Header';
+import { Provider } from 'react-redux';
 import Store from './store/store';
-import WatchPage from './components/WatchPage';
-import Error from './components/Error';
-import VideoContainer from './components/VideoContainer';
+import './index.css';
+import { Body, Header, WatchPage, VideoContainer, Error } from './components';
+import { useEffect } from 'react';
 
-const App = () => (
-  <Provider store={Store}>
-    <Header />
-    <Outlet />
-  </Provider>
-);
+const App = () => {
+  return (
+    <Provider store={Store}>
+      <Header />
+      <Outlet />
+    </Provider>
+  );
+};
 
 const appRouter = createBrowserRouter([
   {

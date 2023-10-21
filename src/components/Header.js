@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { SUGGEST_API } from '../utils/contants';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
+import { cacheResults } from '../store/searchSlice';
 
+import { SUGGEST_API } from '../utils/contants';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
-import { cacheResults } from '../store/searchSlice';
-import { Link } from 'react-router-dom';
 
 const Header = () => {
   //* SideBar Toggle.

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { invisibile } from '../store/sideBarSlice';
 import { COMMENTS_EXAMPLE } from '../utils/contants';
 import CommentContainer from './CommentContainer';
+import ReactPlayer from 'react-player/lazy';
 
 const WatchPage = () => {
   const dispatch = useDispatch();
@@ -12,8 +13,8 @@ const WatchPage = () => {
   }, []);
   const [params] = useSearchParams();
   return (
-    <div>
-      <iframe
+    <div className="px-6">
+      {/* <iframe
         className="m-4"
         width="963"
         height="554"
@@ -22,7 +23,18 @@ const WatchPage = () => {
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
-      ></iframe>
+      ></iframe> */}
+      <div className="player-wrapper">
+        <ReactPlayer
+          url={`https://www.youtube.com/embed/${params.get('v')}`}
+          controls
+          playing
+          width="100%"
+          height="100%"
+          muted
+          className="react-player"
+        />
+      </div>
       <CommentContainer data={COMMENTS_EXAMPLE} />
     </div>
   );
