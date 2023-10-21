@@ -2,17 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-.player-wrapper {
-  width: auto;
-  height: auto;
-}
-.react-player {
-  padding-top: 56.25%;
-  position: relative;
-}
+@layer components {
+  /** Video Player */
+  .player-wrapper {
+    width: auto;
+    height: auto;
+  }
+  .react-player {
+    padding-top: 56.25%;
+    position: relative;
+  }
 
-.react-player > div {
-  position: absolute;
-  top: 0;
-  left: 0;
+  .react-player > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /** Toggle Button  */
+  .wrap {
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    transition: 0.15s;
+    transform: scale(0.6) translateY(-8px);
+  }
+
+  .wrap * {
+    user-select: none;
+  }
+
+  .toggle {
+    filter: drop-shadow(1px 1px 0px #111) drop-shadow(-1px 1px 0px #111)
+      drop-shadow(1px -1px 0px #111) drop-shadow(-1px -1px 0px #111);
+  }
+  .toggle.active {
+    filter: drop-shadow(1px 1px 0px #f61c0d) drop-shadow(-1px 1px 0px #f61c0d)
+      drop-shadow(1px -1px 0px #111) drop-shadow(-1px -1px 0px #111);
+  }
+
+  .bar {
+    transform-origin: 50% 50%;
+    transition-timing-function: linear;
+  }
+
+  .bar path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    stroke: #111;
+    transform-origin: 50% 50%;
+    transition-delay: 0.15s;
+    transition-timing-function: linear;
+    transition: 0.15s;
+  }
+  .bar-after path {
+    fill: none;
+    stroke: #f61c0d;
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: 0.15s;
+  }
+  .left-right .bar {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 0;
+  }
+  .left-right .bar path {
+    transition-delay: 0.2s;
+  }
+  .left-right.active .bar path {
+    transition: 0.2s;
+  }
+  .left-right.active .bar {
+    stroke-dashoffset: 30;
+  }
+
+  .left-right .bar-1-after,
+  .left-right .bar-3-after {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+  }
+  .left-right .bar-2-after {
+    stroke-dasharray: 15;
+    stroke-dashoffset: 15;
+  }
+  .left-right.active .bar-after path {
+    transition: 0.2s;
+    transition-delay: 0.2s;
+  }
+  .left-right.active .bar-2-after {
+    stroke-dashoffset: 0;
+  }
+  .left-right.active .bar-1-after,
+  .left-right.active .bar-3-after {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 40;
+  }
 }

@@ -11,8 +11,13 @@ import searchIcon from '../images/search.svg';
 
 const Header = () => {
   //* SideBar Toggle.
+  const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
   const sideBarToggle = () => dispatch(toggleVisibility());
+
+  const toggleStyle = isActive
+    ? 'toggle toggle-left left-right active'
+    : 'toggle toggle-left left-right';
 
   //* Search Suggestions
   const [searchQuery, setSearchQuery] = useState('');
@@ -71,12 +76,35 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center py-4 px-2">
       <div className="flex">
-        <img
-          className="h-8 cursor-pointer"
-          src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"
-          alt="menu"
-          onClick={sideBarToggle}
-        />
+        <div
+          className="wrap"
+          onClick={() => {
+            setIsActive(!isActive);
+            sideBarToggle();
+          }}
+        >
+          <svg height="40" width="40" class={toggleStyle}>
+            <g class="bar-1 bar">
+              <path d="m 5 5 l 30 0" />
+            </g>
+            <g class="bar-2 bar">
+              <path d="m 5 20 l 30 0" />
+            </g>
+            <g class="bar-3 bar">
+              <path d="m 5 35 l 30 0" />
+            </g>
+            <g class="bar-1-after bar-after">
+              <path d="m 35 20 l -15 -15 l -15 0" />
+            </g>
+            <g class="bar-2-after bar-after">
+              <path d="m 5 20 l 15 0" />
+            </g>
+            <g class="bar-3-after bar-after">
+              <path d="m 35 20 l -15 15 l -15 0" />
+            </g>
+          </svg>
+        </div>
+
         <Link to={'/'}>
           <img
             className="h-8 ps-3 me-1 cursor-pointer"
@@ -99,7 +127,7 @@ const Header = () => {
             </p>
           )}
           {suggestions.length > 0 && showSuggestion && (
-            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden">
+            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden cursor-pointer">
               {suggestions.map(item => (
                 <li
                   className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50"
@@ -135,3 +163,10 @@ const Header = () => {
 };
 
 export default Header;
+
+/* <img
+  className="h-8 cursor-pointer"
+  src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"
+  alt="menu"
+  onClick={sideBarToggle}
+/> */
