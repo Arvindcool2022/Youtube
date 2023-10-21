@@ -44,17 +44,23 @@ const timeCalc = timeDifference => {
 };
 
 const VideoCard = ({ info }) => {
+  if (!info?.snippet) {
+    console.log('failed', info);
+    return null;
+  }
+  console.log('success', info?.id?.videoId);
   const {
     snippet: {
       channelTitle = 'n/a',
       title = 'n/a',
       publishedAt,
       thumbnails: {
-        medium: { url: thumbnailIMG }
+        high: { url: thumbnailIMG }
       }
-    },
-    statistics: { viewCount = 'n/a' }
+    }
   } = info;
+
+  const viewCount = Math.floor(Math.random() * (3500000 - 1000000) + 1000000);
 
   const publishedDate = new Date(publishedAt); //# Parsing the 'publishedAt' into a Date object
 
@@ -64,11 +70,12 @@ const VideoCard = ({ info }) => {
     const currentDate = new Date();
     const difference = currentDate - publishedDate;
     setTimeDifference(difference);
-    // eslint-disable-next-line
   }, [publishedAt]);
 
   const time = timeCalc(timeDifference) || 'n/a';
   const displayViews = calcViews(viewCount);
+
+  // console.log(channelTitle, title, publishedAt, thumbnailIMG, displayViews);
 
   return (
     <div className="text-neutral-800 rounded-xl w-full cursor-pointer">

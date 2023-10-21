@@ -8,16 +8,18 @@ import { SUGGEST_API } from '../utils/contants';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
+import { searchVideos } from '../utils/fetchdata';
+import { updateFeed } from '../store/feedDataSlice';
 
 const Header = () => {
   //* SideBar Toggle.
-  const [isActive, setIsActive] = useState(false);
   const dispatch = useDispatch();
   const sideBarToggle = () => dispatch(toggleVisibility());
+  const isVisible = useSelector(store => store.sideBar.visibility);
 
-  const toggleStyle = isActive
-    ? 'toggle toggle-left left-right active'
-    : 'toggle toggle-left left-right';
+  const toggleStyle = isVisible
+    ? 'toggle toggle-left left-right'
+    : 'toggle toggle-left left-right active';
 
   //* Search Suggestions
   const [searchQuery, setSearchQuery] = useState('');
@@ -25,6 +27,7 @@ const Header = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestion, setShowSuggestion] = useState(false);
+  const [selectedSearchQuery, setSelectedSearchQuery] = useState('');
 
   //# search in cache before api call
   const searchCache = useSelector(store => store.search);
@@ -49,7 +52,9 @@ const Header = () => {
   const getData = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(SUGGEST_API + searchQuery);
+      const response = await fetch(
+        'https://corsproxy.io/?' + SUGGEST_API + searchQuery
+      );
       if (!response.ok) throw new Error('Failed to fetch data');
       const text = await response.text();
 
@@ -60,7 +65,6 @@ const Header = () => {
         const data = JSON.parse(jsonString);
         const suggestions = data[1].map(item => item[0]);
         setSuggestions(suggestions);
-
         dispatch(cacheResults({ [searchQuery]: suggestions }));
       } else {
         console.log(text);
@@ -73,33 +77,39 @@ const Header = () => {
     }
   };
 
+  // * change Videofeed content based on Selected search term
+  useEffect(() => {
+    console.log('from useEffect :', selectedSearchQuery);
+    if (selectedSearchQuery !== '') {
+      (async () => {
+        const searchVideoFeed = await searchVideos(selectedSearchQuery);
+        console.log(searchVideoFeed);
+        dispatch(updateFeed(searchVideoFeed?.items));
+      })();
+    }
+  }, [selectedSearchQuery]);
+
   return (
     <header className="flex justify-between items-center py-4 px-2">
       <div className="flex">
-        <div
-          className="wrap"
-          onClick={() => {
-            setIsActive(!isActive);
-            sideBarToggle();
-          }}
-        >
-          <svg height="40" width="40" class={toggleStyle}>
-            <g class="bar-1 bar">
+        <div className="wrap" onClick={() => sideBarToggle()}>
+          <svg height="40" width="40" className={toggleStyle}>
+            <g className="bar-1 bar">
               <path d="m 5 5 l 30 0" />
             </g>
-            <g class="bar-2 bar">
+            <g className="bar-2 bar">
               <path d="m 5 20 l 30 0" />
             </g>
-            <g class="bar-3 bar">
+            <g className="bar-3 bar">
               <path d="m 5 35 l 30 0" />
             </g>
-            <g class="bar-1-after bar-after">
+            <g className="bar-1-after bar-after">
               <path d="m 35 20 l -15 -15 l -15 0" />
             </g>
-            <g class="bar-2-after bar-after">
+            <g className="bar-2-after bar-after">
               <path d="m 5 20 l 15 0" />
             </g>
-            <g class="bar-3-after bar-after">
+            <g className="bar-3-after bar-after">
               <path d="m 35 20 l -15 15 l -15 0" />
             </g>
           </svg>
@@ -121,17 +131,18 @@ const Header = () => {
       </div>
       <div className="flex flex-grow justify-center mx-1">
         <div className="flex flex-grow sm:flex-grow-0 sm:w-3/4 md:w-1/2 relative">
-          {isLoading && (
-            <p className="p-3 text-xl rounded-2xl font-semibold bg-gray-200 absolute text-center left-0 right-0 top-11">
-              Loading..
-            </p>
-          )}
+          {isLoading && <Loading />}
           {suggestions.length > 0 && showSuggestion && (
             <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden cursor-pointer">
               {suggestions.map(item => (
                 <li
                   className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50"
                   key={item}
+                  onClick={e => {
+                    const text = e.target.innerText;
+                    setSelectedSearchQuery(text);
+                    setSearchQuery(text);
+                  }}
                 >
                   {item}
                 </li>
@@ -144,13 +155,22 @@ const Header = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestion(true)}
-            onBlur={() => setShowSuggestion(false)}
+            onBlur={() => {
+              setTimeout(() => {
+                setShowSuggestion(false);
+              }, 300);
+            }}
           />
           <button className="group px-4 py-2 bg-gray-200 capitalize border border-solid border-gray-500 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-gray-300 ">
             <img
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
               src={searchIcon}
               alt="search"
+              onClick={() => {
+                console.log('clicked', searchQuery);
+
+                setSelectedSearchQuery(searchQuery);
+              }}
             />
           </button>
         </div>
@@ -170,3 +190,11 @@ export default Header;
   alt="menu"
   onClick={sideBarToggle}
 /> */
+
+function Loading() {
+  return (
+    <p className="p-3 text-xl rounded-2xl font-semibold bg-gray-200 absolute text-center left-0 right-0 top-11">
+      Loading..
+    </p>
+  );
+}

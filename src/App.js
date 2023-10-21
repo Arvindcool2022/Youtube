@@ -3,7 +3,6 @@ import { Provider } from 'react-redux';
 import Store from './store/store';
 import './index.css';
 import { Body, Header, WatchPage, VideoContainer, Error } from './components';
-import { useEffect } from 'react';
 
 const App = () => {
   return (
