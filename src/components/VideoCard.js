@@ -48,7 +48,6 @@ const VideoCard = ({ info }) => {
     console.log('failed', info);
     return null;
   }
-  console.log('success', info?.id?.videoId);
   const {
     snippet: {
       channelTitle = 'n/a',
@@ -74,8 +73,6 @@ const VideoCard = ({ info }) => {
 
   const time = timeCalc(timeDifference) || 'n/a';
   const displayViews = calcViews(viewCount);
-
-  // console.log(channelTitle, title, publishedAt, thumbnailIMG, displayViews);
 
   return (
     <div className="text-neutral-800 rounded-xl w-full cursor-pointer">

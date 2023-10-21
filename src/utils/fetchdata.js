@@ -17,24 +17,25 @@ const fetchData = async url => {
     throw error;
   }
 };
-export const searchVideos = async (searchTerm = 'coding') => {
+const searchVideos = async (searchTerm = 'popular') => {
   const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchTerm}&part=snippet%2Cid&regionCode=US&maxResults=50&type=video`;
   return fetchData(url);
 };
 
-export const fetchSuggestedVideos = async (videoId = 'ouSGeR9h3h4') => {
-  const url = `https://youtube-v31.p.rapidapi.com/search?relatedToVideoId=${videoId}&part=id%2Csnippet&type=video&maxResults=50`;
+const fetchSuggestedVideos = async videoId => {
+  const id = videoId || 'eoWcQUjNM8o';
+  const url = `https://youtube-v31.p.rapidapi.com/search?relatedToVideoId=${id}&part=id%2Csnippet&type=video&maxResults=50`;
   return fetchData(url);
 };
 
-export const fetchComments = async (videoId = 'TjnyFNxQ67Y') => {
+const fetchComments = async (videoId = 'TjnyFNxQ67Y') => {
   const url = `https://youtube-v31.p.rapidapi.com/commentThreads?part=snippet&videoId=${videoId}&maxResults=25`;
   return fetchData(url);
 };
 
-export const fetchVideoDetails = async (videoId = 'TjnyFNxQ67Y') => {
+const fetchVideoDetails = async (videoId = 'TjnyFNxQ67Y') => {
   const url = `https://youtube-v31.p.rapidapi.com/videos?part=contentDetails%2Csnippet%2Cstatistics&id=${videoId}`;
   return fetchData(url);
 };
 
-// export { searchVideos, fetchSuggestedVideos, commentsData, videoDetails };
+export { searchVideos, fetchSuggestedVideos, fetchComments, fetchVideoDetails };

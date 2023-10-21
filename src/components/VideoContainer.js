@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateFeed } from '../store/feedDataSlice';
+import { fetchSuggestedVideos } from '../utils/fetchdata';
 import VideoCard, { ADVideoCard } from './VideoCard';
 import ButtonList from './ButtonList';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchSuggestedVideos } from '../utils/fetchdata';
 
 const VideoContainer = () => {
   const [videoData, setVideoData] = useState([]);
@@ -27,7 +27,7 @@ const VideoContainer = () => {
 
   if (!videoData || videoData.length === 0) return <h1>loading...</h1>;
 
-  const promotedVideo = videoData[Math.floor(Math.random() * (49 - 0 + 1) + 0)];
+  const promotedVideo = videoData[Math.floor(Math.random() * (9 + 1) + 1)];
 
   return (
     <section className="px-5 flex-grow">

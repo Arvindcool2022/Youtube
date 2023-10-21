@@ -3,25 +3,25 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
 import { cacheResults } from '../store/searchSlice';
-
+import { updateFeed } from '../store/feedDataSlice';
 import { SUGGEST_API } from '../utils/contants';
+import { searchVideos } from '../utils/fetchdata';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
-import { searchVideos } from '../utils/fetchdata';
-import { updateFeed } from '../store/feedDataSlice';
 
 const Header = () => {
-  //* SideBar Toggle.
+  //* SideBar Toggle Starts.
   const dispatch = useDispatch();
   const sideBarToggle = () => dispatch(toggleVisibility());
+  //# toggler icon animation
   const isVisible = useSelector(store => store.sideBar.visibility);
-
   const toggleStyle = isVisible
     ? 'toggle toggle-left left-right'
     : 'toggle toggle-left left-right active';
+  //* SideBar Toggle Ends.
 
-  //* Search Suggestions
+  //* Search Suggestions Starts.
   const [searchQuery, setSearchQuery] = useState('');
   const [debounceTimer, setDebounceTimer] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ const Header = () => {
       //# debouncing the search
       if (debounceTimer) clearTimeout(debounceTimer);
 
-      const newDebounceTimer = setTimeout(() => getData(), 300);
+      const newDebounceTimer = setTimeout(() => fetchSuggestions(), 300);
       setDebounceTimer(newDebounceTimer);
     } else setSuggestions([]);
 
@@ -49,41 +49,25 @@ const Header = () => {
     if (searchQuery === '') setSuggestions([]);
   }, [isLoading]);
 
-  const getData = async () => {
+  const fetchSuggestions = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        'https://corsproxy.io/?' + SUGGEST_API + searchQuery
-      );
-      if (!response.ok) throw new Error('Failed to fetch data');
-      const text = await response.text();
-
-      //# Check Format
-      if (text.startsWith('window.google.ac.h(')) {
-        const jsonString = text.slice('window.google.ac.h('.length, -1);
-
-        const data = JSON.parse(jsonString);
-        const suggestions = data[1].map(item => item[0]);
-        setSuggestions(suggestions);
-        dispatch(cacheResults({ [searchQuery]: suggestions }));
-      } else {
-        console.log(text);
-        throw new Error('response not in expected format');
-      }
+      const suggestions = await getData(searchQuery);
+      setSuggestions(suggestions);
+      dispatch(cacheResults({ [searchQuery]: suggestions }));
     } catch (error) {
       console.error('Error fetching video data:', error);
     } finally {
       setIsLoading(false);
     }
   };
+  //* Search Suggestions Ends.
 
-  // * change Videofeed content based on Selected search term
+  // * Effect to update video feed content based on the selected search term
   useEffect(() => {
-    console.log('from useEffect :', selectedSearchQuery);
     if (selectedSearchQuery !== '') {
       (async () => {
         const searchVideoFeed = await searchVideos(selectedSearchQuery);
-        console.log(searchVideoFeed);
         dispatch(updateFeed(searchVideoFeed?.items));
       })();
     }
@@ -124,7 +108,7 @@ const Header = () => {
         </Link>
 
         <Link to={'/'}>
-          <p className="font-mono tracking-tighter text-2xl font-semibold cursor-pointer hidden sm:block">
+          <p className="font-Roboto tracking-tighter text-3xl font-semibold cursor-pointer hidden scale-x-75 origin-left sm:block">
             YouTube
           </p>
         </Link>
@@ -166,11 +150,7 @@ const Header = () => {
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
               src={searchIcon}
               alt="search"
-              onClick={() => {
-                console.log('clicked', searchQuery);
-
-                setSelectedSearchQuery(searchQuery);
-              }}
+              onClick={() => setSelectedSearchQuery(searchQuery)}
             />
           </button>
         </div>
@@ -184,12 +164,21 @@ const Header = () => {
 
 export default Header;
 
-/* <img
-  className="h-8 cursor-pointer"
-  src="https://upload.wikimedia.org/wikipedia/commons/b/b2/Hamburger_icon.svg"
-  alt="menu"
-  onClick={sideBarToggle}
-/> */
+async function getData(searchQuery) {
+  const response = await fetch(SUGGEST_API + searchQuery);
+  if (!response.ok) throw new Error('Failed to fetch data');
+  const text = await response.text();
+  //# Check Format
+  if (text.startsWith('window.google.ac.h(')) {
+    const jsonString = text.slice('window.google.ac.h('.length, -1);
+    const data = JSON.parse(jsonString);
+    const suggestions = data[1].map(item => item[0]);
+    return suggestions;
+  } else {
+    console.log(text);
+    throw new Error('response not in expected format');
+  }
+}
 
 function Loading() {
   return (
