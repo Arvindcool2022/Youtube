@@ -3,16 +3,13 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
 import { cacheResults } from '../store/searchSlice';
-import {
-  clearSearchFeed,
-  defaultFeed,
-  updateFeed
-} from '../store/feedDataSlice';
+import { clearSearchFeed, updateFeed } from '../store/feedDataSlice';
 import { SUGGEST_API } from '../utils/contants';
 import { searchVideos } from '../utils/fetchdata';
 import logo from '../images/youtube-svgrepo-com.svg';
 import userIcon from '../images/user .png';
 import searchIcon from '../images/search.svg';
+import searchWhIcon from '../images/search white.svg';
 
 const Header = () => {
   //* SideBar Toggle Starts.
@@ -78,9 +75,13 @@ const Header = () => {
       dispatch(clearSearchFeed());
     }
   }, [selectedSearchQuery]);
+  //* ends here.
+
+  //* color theme.
+  const darkMode = useSelector(store => store.colorTheme.mode);
 
   return (
-    <header className="flex justify-between items-center py-4 mt-2 px-2">
+    <header className="flex justify-between items-center pt-6 pd-4 px-2">
       <div className="flex">
         <div className="wrap" onClick={() => sideBarToggle()}>
           <svg height="40" width="40" className={toggleStyle}>
@@ -162,10 +163,10 @@ const Header = () => {
               }, 300);
             }}
           />
-          <button className="group px-4 py-2 bg-gray-200 dark:bg-stone-900 capitalize border border-solid border-gray-500 dark:border-stone-800 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-stone-700 ">
+          <button className="group px-4 py-2 bg-gray-200  dark:bg-stone-900 capitalize border border-solid border-gray-500 dark:border-stone-800 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-stone-700 ">
             <img
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
-              src={searchIcon}
+              src={darkMode ? searchWhIcon : searchIcon}
               alt="search"
               onClick={() => {
                 console.log(searchQuery);

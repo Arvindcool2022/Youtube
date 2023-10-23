@@ -16,7 +16,7 @@ const feedDataSlice = createSlice({
     defaultFeed: (state, action) => {
       state.initialFeed.length = 0;
       state.initialFeed.push(action.payload);
-      console.log('cleared');
+      // console.log('cleared');
     }
   }
 });

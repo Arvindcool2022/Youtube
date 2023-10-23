@@ -23,7 +23,7 @@ const VideoContainer = () => {
   const defaultData = useSelector(store => store.feedData.initialFeed);
   const searchData = useSelector(store => store.feedData.data);
   useEffect(() => {
-    console.log('store default: ', defaultData, 'searchData: ', searchData);
+    // console.log('store default: ', defaultData, 'searchData: ', searchData);
     const vidData = searchData.length !== 0 ? searchData : defaultData;
     setVideoData(vidData[0]);
     // console.log(vidData[0]);

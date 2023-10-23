@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonList from './ButtonList';
 import { invisibile, visibile } from '../store/sideBarSlice';
+import { toggleMode } from '../store/colorTheme';
 
 const Sidebar = () => {
   const isVisible = useSelector(store => store.sideBar.visibility);
@@ -36,13 +37,19 @@ const Sidebar = () => {
     };
   }, []);
 
-  //# early return pattern
+  const toggleTheme = () => {
+    dispatch(toggleMode());
+  };
+
   const width = isVisible ? 'w-full sm:max-w-max' : 'w-0';
 
   return (
     <aside
       className={`z-50 absolute bg-white bg-opacity-90 overflow-hidden h-full text-center dark:bg-black sm:h-[90vh] sm:static ${width}`}
     >
+      <button className="float-left ms-6" onClick={() => toggleTheme()}>
+        toggle
+      </button>
       <ButtonList width={windowDimensions} />
     </aside>
   );

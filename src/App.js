@@ -5,9 +5,8 @@ import { Body, Header, WatchPage, VideoContainer, Error } from './components';
 
 const App = () => {
   const darkMode = useSelector(store => store.colorTheme.mode);
-  console.log(darkMode);
   return (
-    <div className="">
+    <div className={darkMode ? 'dark' : ''}>
       <div className="dark:bg-black dark:text-white">
         <Header />
         <Outlet />

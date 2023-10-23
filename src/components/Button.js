@@ -35,7 +35,8 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
           console.log("clicked something else 'not all'");
           const response = await searchVideos(suggestedCategory);
           dispatch(updateFeed(response?.items));
-        } else console.log('no fetch call made: ', suggestedCategory);
+        }
+        // else console.log('no fetch call made: ', suggestedCategory);
       } catch (error) {
         console.error('Error fetching and updating feed:', error);
       }
