@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { defaultFeed, updateFeed } from '../store/feedDataSlice';
+import { defaultFeed } from '../store/feedDataSlice';
 import { fetchPopularVideos } from '../utils/fetchdata';
 import VideoCard, { ADVideoCard } from './VideoCard';
-import ButtonList from './ButtonList';
 
 const VideoContainer = () => {
   const [videoData, setVideoData] = useState([]);

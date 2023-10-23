@@ -1,17 +1,16 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import Store from './store/store';
+import { useSelector } from 'react-redux';
 import './index.css';
 import { Body, Header, WatchPage, VideoContainer, Error } from './components';
 
 const App = () => {
+  const darkMode = useSelector(store => store.colorTheme.mode);
+  console.log(darkMode);
   return (
-    <div className="dark">
+    <div className="">
       <div className="dark:bg-black dark:text-white">
-        <Provider store={Store}>
-          <Header />
-          <Outlet />
-        </Provider>
+        <Header />
+        <Outlet />
       </div>
     </div>
   );
