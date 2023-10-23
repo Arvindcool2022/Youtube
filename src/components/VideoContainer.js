@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFeed } from '../store/feedDataSlice';
-import { fetchSuggestedVideos } from '../utils/fetchdata';
+import { defaultFeed, updateFeed } from '../store/feedDataSlice';
+import { fetchPopularVideos } from '../utils/fetchdata';
 import VideoCard, { ADVideoCard } from './VideoCard';
 import ButtonList from './ButtonList';
 
@@ -16,34 +16,39 @@ const VideoContainer = () => {
   const dispatch = useDispatch();
 
   const fetchVideo = async () => {
-    const response = await fetchSuggestedVideos();
-    dispatch(updateFeed(response?.items));
+    const response = await fetchPopularVideos();
+    if (response !== undefined) dispatch(defaultFeed(response?.items)); // 1st data fetch
+    // console.log(response?.items);
   };
 
-  const data = useSelector(store => store.feedData.data);
+  const defaultData = useSelector(store => store.feedData.initialFeed);
+  const searchData = useSelector(store => store.feedData.data);
   useEffect(() => {
-    setVideoData(data[0]);
-  }, [data]);
+    console.log('store default: ', defaultData, 'searchData: ', searchData);
+    const vidData = searchData.length !== 0 ? searchData : defaultData;
+    setVideoData(vidData[0]);
+    // console.log(vidData[0]);
+  }, [defaultData, searchData]);
 
   if (!videoData || videoData.length === 0) return <h1>loading...</h1>;
 
-  const promotedVideo = videoData[Math.floor(Math.random() * (9 + 1) + 1)];
+  const promotedVideo = videoData[Math.floor(Math.random() * (19 - 10) + 10)];
 
   return (
     <section className="px-5 flex-grow">
       <ButtonList />
       <section className="grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mx-2 sm:mx-0 justify-items-center justify-center">
-        {
-          <Link
-            to={'watch?v=' + promotedVideo?.id?.videoId}
-            key={promotedVideo?.id?.videoId}
-          >
+        {!promotedVideo?.id?.videoId && (
+          <Link to={'watch?v=' + promotedVideo?.id} key={promotedVideo?.id}>
             <ADVideoCard info={promotedVideo} />
           </Link>
-        }
+        )}
         {videoData.map(item =>
-          item?.id?.videoId && item?.snippet ? (
-            <Link to={'watch?v=' + item?.id?.videoId} key={item?.id?.videoId}>
+          (item?.id?.videoId || item?.id) && item?.snippet ? (
+            <Link
+              to={'watch?v=' + (item?.id?.videoId || item?.id)}
+              key={item?.id?.videoId || item?.id}
+            >
               <VideoCard info={item} />
             </Link>
           ) : null

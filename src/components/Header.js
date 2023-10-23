@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleVisibility } from '../store/sideBarSlice';
 import { cacheResults } from '../store/searchSlice';
-import { updateFeed } from '../store/feedDataSlice';
+import {
+  clearSearchFeed,
+  defaultFeed,
+  updateFeed
+} from '../store/feedDataSlice';
 import { SUGGEST_API } from '../utils/contants';
 import { searchVideos } from '../utils/fetchdata';
 import logo from '../images/youtube-svgrepo-com.svg';
@@ -70,6 +74,8 @@ const Header = () => {
         const searchVideoFeed = await searchVideos(selectedSearchQuery);
         dispatch(updateFeed(searchVideoFeed?.items));
       })();
+    } else {
+      dispatch(clearSearchFeed());
     }
   }, [selectedSearchQuery]);
 
@@ -104,11 +110,21 @@ const Header = () => {
             className="h-8 ps-3 me-1 cursor-pointer"
             src={logo}
             alt="youtube-logo"
+            onClick={() => {
+              setSearchQuery('');
+              dispatch(clearSearchFeed());
+            }}
           />
         </Link>
 
         <Link to={'/'}>
-          <p className="font-Roboto tracking-tighter text-3xl font-semibold cursor-pointer hidden scale-x-75 origin-left sm:block">
+          <p
+            className="font-Roboto tracking-tighter text-3xl font-semibold cursor-pointer hidden scale-x-75 origin-left sm:block"
+            onClick={() => {
+              setSearchQuery('');
+              dispatch(clearSearchFeed());
+            }}
+          >
             YouTube
           </p>
         </Link>
@@ -150,7 +166,10 @@ const Header = () => {
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
               src={searchIcon}
               alt="search"
-              onClick={() => setSelectedSearchQuery(searchQuery)}
+              onClick={() => {
+                console.log(searchQuery);
+                setSelectedSearchQuery(searchQuery);
+              }}
             />
           </button>
         </div>

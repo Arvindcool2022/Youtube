@@ -48,6 +48,7 @@ const VideoCard = ({ info }) => {
     console.log('failed', info);
     return null;
   }
+  // console.log('success', info);
   const {
     snippet: {
       channelTitle = 'n/a',

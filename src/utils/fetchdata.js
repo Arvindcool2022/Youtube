@@ -1,4 +1,4 @@
-import { RAPID_API_KEY } from './contants';
+import { RAPID_API_KEY, YOUTUBE_API } from './contants';
 
 const fetchData = async url => {
   try {
@@ -16,6 +16,10 @@ const fetchData = async url => {
   } catch (error) {
     throw error;
   }
+};
+const fetchPopularVideos = async () => {
+  const url = YOUTUBE_API;
+  return fetchData(url);
 };
 const searchVideos = async (searchTerm = 'popular') => {
   const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchTerm}&part=snippet%2Cid&regionCode=US&maxResults=50&type=video`;
@@ -38,4 +42,10 @@ const fetchVideoDetails = async (videoId = 'TjnyFNxQ67Y') => {
   return fetchData(url);
 };
 
-export { searchVideos, fetchSuggestedVideos, fetchComments, fetchVideoDetails };
+export {
+  fetchPopularVideos,
+  searchVideos,
+  fetchSuggestedVideos,
+  fetchComments,
+  fetchVideoDetails
+};
