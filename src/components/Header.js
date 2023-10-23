@@ -174,7 +174,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <div className="hidden sm:block">
+      <div className="hidden md:block">
         <img className="h-8 cursor-pointer" src={userIcon} alt="user-icon" />
       </div>
     </header>
