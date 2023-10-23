@@ -133,7 +133,7 @@ const Header = () => {
         <div className="flex flex-grow sm:flex-grow-0 sm:w-3/4 md:w-1/2 relative">
           {isLoading && <Loading />}
           {suggestions.length > 0 && showSuggestion && (
-            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden cursor-pointer">
+            <ul className="p-3 border border-gray-500 rounded-2xl bg-gray-200 dark:bg-stone-950 absolute text-center top-11 right-0 left-0 z-10 overflow-hidden cursor-pointer">
               {suggestions.map(item => (
                 <li
                   className="p-1 transition-all duration-200 ease-in-out hover:scale-105 hover:bg-gray-50"
@@ -150,8 +150,9 @@ const Header = () => {
             </ul>
           )}
           <input
-            className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid border-gray-500 ps-3 flex-grow"
+            className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid  dark:bg-stone-900 dark:border-stone-800 border-gray-500 ps-3 flex-grow"
             type="text"
+            placeholder="Search..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             onFocus={() => setShowSuggestion(true)}
@@ -161,7 +162,7 @@ const Header = () => {
               }, 300);
             }}
           />
-          <button className="group px-4 py-2 bg-gray-200 capitalize border border-solid border-gray-500 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-gray-300 ">
+          <button className="group px-4 py-2 bg-gray-200 dark:bg-stone-900 capitalize border border-solid border-gray-500 dark:border-stone-800 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-stone-700 ">
             <img
               className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
               src={searchIcon}
@@ -201,7 +202,7 @@ async function getData(searchQuery) {
 
 function Loading() {
   return (
-    <p className="p-3 text-xl rounded-2xl font-semibold bg-gray-200 absolute text-center left-0 right-0 top-11">
+    <p className="p-3 text-xl rounded-2xl font-semibold bg-gray-200 dark:bg-stone-950 absolute text-center left-0 right-0 top-11">
       Loading..
     </p>
   );

@@ -44,7 +44,9 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
     fetchAndSetFeed();
   }, [suggestedCategory, dispatch, bool]);
 
-  const isActive = isPressed ? ' bg-[#f61c0d] text-white' : ' hover:bg-red-300';
+  const isActive = isPressed
+    ? ' bg-[#f61c0d] text-white'
+    : ' hover:bg-red-300 dark:hover:bg-red-900 dark:hover:bg-opacity-50';
 
   return (
     <li

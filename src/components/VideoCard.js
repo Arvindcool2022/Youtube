@@ -76,7 +76,7 @@ const VideoCard = ({ info }) => {
   const displayViews = calcViews(viewCount);
 
   return (
-    <div className="text-neutral-800 rounded-xl w-full cursor-pointer">
+    <div className="text-neutral-800 dark:text-white rounded-xl w-full cursor-pointer">
       <div className="min-w-full mb-4">
         {' '}
         <img
@@ -105,8 +105,8 @@ const VideoCard = ({ info }) => {
 };
 
 export const ADVideoCard = ({ info }) => (
-  <div className="bg-slate-200 rounded-lg w-full">
-    <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute z-0">
+  <div className="bg-slate-200 dark:bg-black dark:border dark:border-stone-900  rounded-lg w-full">
+    <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute dark:bg-zinc-200 dark:text-black z-0">
       Promoted
     </span>
     <VideoCard info={info} />

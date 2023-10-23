@@ -41,7 +41,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`z-50 absolute bg-white bg-opacity-90 overflow-hidden h-full text-center sm:h-[90vh] sm:static ${width}`}
+      className={`z-50 absolute bg-white bg-opacity-90 overflow-hidden h-full text-center dark:bg-black sm:h-[90vh] sm:static ${width}`}
     >
       <ButtonList width={windowDimensions} />
     </aside>

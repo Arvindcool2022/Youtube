@@ -104,4 +104,16 @@
     stroke-dasharray: 20;
     stroke-dashoffset: 40;
   }
+  /* dark mode */
+  .dark .toggle {
+    filter: drop-shadow(1px 1px 0px #fff) drop-shadow(-1px 1px 0px #fff)
+      drop-shadow(1px -1px 0px #fff) drop-shadow(-1px -1px 0px #fff);
+  }
+  .dark .toggle.active {
+    filter: drop-shadow(1px 1px 0px #f61c0d) drop-shadow(-1px 1px 0px #f61c0d)
+      drop-shadow(1px -1px 0px #fff) drop-shadow(-1px -1px 0px #fff);
+  }
+  .dark .bar path {
+    stroke: #fff;
+  }
 }

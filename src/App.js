@@ -6,10 +6,14 @@ import { Body, Header, WatchPage, VideoContainer, Error } from './components';
 
 const App = () => {
   return (
-    <Provider store={Store}>
-      <Header />
-      <Outlet />
-    </Provider>
+    <div className="dark">
+      <div className="dark:bg-black dark:text-white">
+        <Provider store={Store}>
+          <Header />
+          <Outlet />
+        </Provider>
+      </div>
+    </div>
   );
 };
 
