@@ -1,10 +1,16 @@
 const BUTTON_LIST = [
   'all',
+  'react JS',
+
   'computer science',
   'programming',
   'gaming',
+  'music',
   'lo-fi',
-  'interview'
+  'finance',
+  'interview',
+  'TRS podcast',
+  'MKBHD'
 ];
 
 const CORS_PROXY = 'https://corsproxy.io/?';

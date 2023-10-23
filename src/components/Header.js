@@ -80,7 +80,7 @@ const Header = () => {
   }, [selectedSearchQuery]);
 
   return (
-    <header className="flex justify-between items-center py-4 px-2">
+    <header className="flex justify-between items-center py-4 mt-2 px-2">
       <div className="flex">
         <div className="wrap" onClick={() => sideBarToggle()}>
           <svg height="40" width="40" className={toggleStyle}>

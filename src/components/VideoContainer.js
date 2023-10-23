@@ -30,30 +30,33 @@ const VideoContainer = () => {
     // console.log(vidData[0]);
   }, [defaultData, searchData]);
 
+  const isVisible = useSelector(store => store.sideBar.visibility);
+
   if (!videoData || videoData.length === 0) return <h1>loading...</h1>;
 
   const promotedVideo = videoData[Math.floor(Math.random() * (19 - 10) + 10)];
 
   return (
-    <section className="px-5 flex-grow">
-      <ButtonList />
-      <section className="grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mx-2 sm:mx-0 justify-items-center justify-center">
-        {!promotedVideo?.id?.videoId && (
-          <Link to={'watch?v=' + promotedVideo?.id} key={promotedVideo?.id}>
-            <ADVideoCard info={promotedVideo} />
+    <section
+      className={`grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mt-6 mx-4 sm:mx-2 justify-items-center justify-center ${
+        isVisible ? 'w-full' : 'w-screen'
+      }`}
+    >
+      {!promotedVideo?.id?.videoId && (
+        <Link to={'watch?v=' + promotedVideo?.id} key={promotedVideo?.id}>
+          <ADVideoCard info={promotedVideo} />
+        </Link>
+      )}
+      {videoData.map(item =>
+        (item?.id?.videoId || item?.id) && item?.snippet ? (
+          <Link
+            to={'watch?v=' + (item?.id?.videoId || item?.id)}
+            key={item?.id?.videoId || item?.id}
+          >
+            <VideoCard info={item} />
           </Link>
-        )}
-        {videoData.map(item =>
-          (item?.id?.videoId || item?.id) && item?.snippet ? (
-            <Link
-              to={'watch?v=' + (item?.id?.videoId || item?.id)}
-              key={item?.id?.videoId || item?.id}
-            >
-              <VideoCard info={item} />
-            </Link>
-          ) : null
-        )}
-      </section>
+        ) : null
+      )}
     </section>
   );
 };
