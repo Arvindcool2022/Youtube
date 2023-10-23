@@ -153,6 +153,7 @@ const Header = () => {
           <input
             className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid  dark:bg-stone-900 dark:border-stone-800 border-gray-500 ps-3 flex-grow"
             type="text"
+            id="search"
             placeholder="Search..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}

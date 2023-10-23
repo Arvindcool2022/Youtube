@@ -10,7 +10,7 @@ const ButtonList = ({ width }) => {
   };
 
   return (
-    <ul className=" capitalize text-sm p-4 pe-6 mt-2 ">
+    <ul className=" capitalize text-sm p-4 pe-6">
       {BUTTON_LIST.map((btn, index) => (
         <Button
           key={btn}

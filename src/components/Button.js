@@ -3,6 +3,7 @@ import { searchVideos } from '../utils/fetchdata';
 import { useDispatch } from 'react-redux';
 import { clearSearchFeed, updateFeed } from '../store/feedDataSlice';
 import { toggleVisibility } from '../store/sideBarSlice';
+import { Link } from 'react-router-dom';
 
 const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
   const [bool, setBool] = useState(false); //without this useEffect Bugs out after 3 or 4 clicks.
 
   const closeList = () => {
-    console.log(screenWidth);
+    // console.log(screenWidth);
     if (screenWidth <= 480) {
       dispatch(toggleVisibility());
     }
@@ -18,10 +19,10 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
 
   const handleClick = e => {
     const text = e.target.innerText.toLowerCase().trim();
-    console.log('clicked: ', text);
+    // console.log('clicked: ', text);
     setSuggestedCategory(text);
     setBool(!bool);
-    pressed(index);
+    if (!isPressed) pressed(index);
     closeList();
   };
 
@@ -29,10 +30,10 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
     const fetchAndSetFeed = async () => {
       try {
         if (suggestedCategory === 'all') {
-          console.log('clicked all');
+          // console.log('clicked all');
           dispatch(clearSearchFeed());
         } else if (suggestedCategory) {
-          console.log("clicked something else 'not all'");
+          // console.log("clicked something else 'not all'");
           const response = await searchVideos(suggestedCategory);
           dispatch(updateFeed(response?.items));
         }
@@ -50,12 +51,14 @@ const Button = ({ name, index, pressed, isPressed, screenWidth }) => {
     : ' hover:bg-red-300 dark:hover:bg-red-900 dark:hover:bg-opacity-50';
 
   return (
-    <li
-      className={`px-4 py-1 my-3 rounded-full cursor-pointer first-letter:uppercase transition-all duration-200 ease-in-out ${isActive}`}
-      onClick={handleClick}
-    >
-      {name}
-    </li>
+    <Link to={'/'}>
+      <li
+        className={`px-4 py-1 my-3 rounded-full cursor-pointer first-letter:uppercase transition-all duration-200 ease-in-out ${isActive}`}
+        onClick={handleClick}
+      >
+        {name}
+      </li>
+    </Link>
   );
 };
 
