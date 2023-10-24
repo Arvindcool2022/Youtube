@@ -6,35 +6,29 @@ import { fetchPopularVideos } from '../utils/fetchdata';
 import VideoCard, { ADVideoCard } from './VideoCard';
 
 const VideoContainer = () => {
+  const dispatch = useDispatch();
   const [videoData, setVideoData] = useState([]);
+  const defaultData = useSelector(store => store.feedData.initialFeed);
+  const searchData = useSelector(store => store.feedData.data);
+  const isVisible = useSelector(store => store.sideBar.visibility);
+
+  const fetchVideo = async () => {
+    const response = await fetchPopularVideos();
+    if (response !== undefined) dispatch(defaultFeed(response?.items)); // 1st data fetch
+  };
 
   useEffect(() => {
     fetchVideo();
   }, []);
 
-  const dispatch = useDispatch();
-
-  const fetchVideo = async () => {
-    const response = await fetchPopularVideos();
-    if (response !== undefined) dispatch(defaultFeed(response?.items)); // 1st data fetch
-    // console.log(response?.items);
-  };
-
-  const defaultData = useSelector(store => store.feedData.initialFeed);
-  const searchData = useSelector(store => store.feedData.data);
   useEffect(() => {
-    // console.log('store default: ', defaultData, 'searchData: ', searchData);
     const vidData = searchData.length !== 0 ? searchData : defaultData;
     setVideoData(vidData[0]);
-    // console.log(vidData[0]);
   }, [defaultData, searchData]);
-
-  const isVisible = useSelector(store => store.sideBar.visibility);
 
   if (!videoData || videoData.length === 0) return <h1>loading...</h1>;
 
   const promotedVideo = videoData[Math.floor(Math.random() * (19 - 10) + 10)];
-
   return (
     <section
       className={`grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mt-6 mx-4 sm:mx-2 justify-items-center justify-center ${

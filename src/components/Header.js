@@ -108,7 +108,7 @@ const Header = () => {
 
         <Link to={'/'}>
           <img
-            className="h-8 ps-3 me-1 cursor-pointer"
+            className="h-8 ps-0 sm:ps-3 me-1 cursor-pointer"
             src={logo}
             alt="youtube-logo"
             onClick={() => {
@@ -164,9 +164,9 @@ const Header = () => {
               }, 300);
             }}
           />
-          <button className="group px-4 py-2 bg-gray-200  dark:bg-stone-900 capitalize border border-solid border-gray-500 dark:border-stone-800 border-s-0 rounded-e-full transition-all duration-200 ease-in-out hover:bg-stone-700 ">
+          <button className="group px-4 py-2 bg-gray-200  dark:bg-stone-900 capitalize border border-solid border-gray-500 dark:border-stone-800 border-s-0 rounded-e-full transition-transform duration-200 ease-in-out ">
             <img
-              className="h-5 transition-all duration-200 ease-in-out group-active:scale-90"
+              className="h-5 transition-transform duration-200 ease-in-out group-active:scale-90"
               src={darkMode ? searchWhIcon : searchIcon}
               alt="search"
               onClick={() => {

@@ -1,47 +1,6 @@
 import { useEffect, useState } from 'react';
-
-const calcViews = num => {
-  const moreThanSix = (num / 1000000).toFixed(1);
-  const fiveDigits = Math.floor(num / 10000);
-
-  const views =
-    moreThanSix >= 1
-      ? `${moreThanSix}m`
-      : fiveDigits >= 1
-      ? `${fiveDigits}k`
-      : num;
-  return views;
-};
-
-const timeCalc = timeDifference => {
-  const millisecondsInSecond = 1000;
-  const millisecondsInMinute = millisecondsInSecond * 60;
-  const millisecondsInHour = millisecondsInMinute * 60;
-  const millisecondsInDay = millisecondsInHour * 24;
-  const millisecondsInMonth = millisecondsInDay * 30;
-  const millisecondsInYear = millisecondsInMonth * 12;
-
-  const years = Math.floor(timeDifference / millisecondsInYear);
-  const months = Math.floor(timeDifference / millisecondsInMonth);
-  const days = Math.floor(timeDifference / millisecondsInDay);
-  const hours = Math.floor(timeDifference / millisecondsInHour);
-  const minutes = Math.floor(timeDifference / millisecondsInMinute);
-
-  const time =
-    years !== 0
-      ? `${years} years`
-      : months !== 0
-      ? `${months} months`
-      : days !== 0
-      ? `${days} days`
-      : hours !== 0
-      ? `${hours} hours`
-      : minutes !== 0
-      ? `${minutes} minutes`
-      : 'just now';
-
-  return time;
-};
+import useFormatViews from '../hooks/useFormatViews';
+import useTimeDifference from '../hooks/useTimeDifference';
 
 const VideoCard = ({ info }) => {
   if (!info?.snippet) {
@@ -62,18 +21,9 @@ const VideoCard = ({ info }) => {
 
   const viewCount = Math.floor(Math.random() * (3500000 - 1000000) + 1000000);
 
-  const publishedDate = new Date(publishedAt); //# Parsing the 'publishedAt' into a Date object
+  const publishedDate = useTimeDifference(publishedAt);
 
-  const [timeDifference, setTimeDifference] = useState(0);
-
-  useEffect(() => {
-    const currentDate = new Date();
-    const difference = currentDate - publishedDate;
-    setTimeDifference(difference);
-  }, [publishedAt]);
-
-  const time = timeCalc(timeDifference) || 'n/a';
-  const displayViews = calcViews(viewCount);
+  const displayViews = useFormatViews(viewCount);
 
   return (
     <div className="text-neutral-800 dark:text-white rounded-xl w-full cursor-pointer">

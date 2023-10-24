@@ -17,6 +17,7 @@ const fetchData = async url => {
     throw error;
   }
 };
+
 const fetchPopularVideos = async () => {
   const url = YOUTUBE_API;
   return fetchData(url);
@@ -42,10 +43,16 @@ const fetchVideoDetails = async (videoId = 'TjnyFNxQ67Y') => {
   return fetchData(url);
 };
 
+const fetchChannelDetails = async (channelId = 'TjnyFNxQ67Y') => {
+  const url = `https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=${channelId}`;
+  return fetchData(url);
+};
+
 export {
   fetchPopularVideos,
   searchVideos,
   fetchSuggestedVideos,
   fetchComments,
-  fetchVideoDetails
+  fetchVideoDetails,
+  fetchChannelDetails
 };
