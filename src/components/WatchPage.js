@@ -1,62 +1,68 @@
 import { useEffect, useState } from 'react';
-import { useOutletContext, useParams, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { invisibile, visibile } from '../store/sideBarSlice';
-import { COMMENTS_EXAMPLE } from '../utils/contants';
-import CommentContainer from './CommentContainer';
-import ReactPlayer from 'react-player/lazy';
-import VideoRecommend from './VideoRecommend';
-import { fetchChannelDetails, fetchVideoDetails } from '../utils/fetchdata';
+import { invisible, visible } from '../store/sideBarSlice';
 import useFormatViews from '../hooks/useFormatViews';
 import useTimeDifference from '../hooks/useTimeDifference';
+import { fetchChannelDetails, fetchVideoDetails } from '../utils/fetchdata';
+import ReactPlayer from 'react-player/lazy';
+import CommentContainer from './CommentContainer';
+import VideoRecommend from './VideoRecommend';
+import { COMMENTS_EXAMPLE } from '../utils/contants';
 
 const WatchPage = () => {
+  const [params] = useSearchParams();
+  const videoId = params.get('v');
   const [videoDetails, setVideoDetails] = useState(null);
   const [channelDetails, setChannelDetails] = useState(null);
   const dispatch = useDispatch();
-  const toggle = useOutletContext();
-  const [params] = useSearchParams();
-  const videoId = params.get('v');
-  useEffect(() => {
-    dispatch(invisibile());
-    toggle(true);
-    fetchdetails();
-    return () => {
-      dispatch(visibile());
-      toggle(false);
-    };
-  }, []);
   const time = useTimeDifference(videoDetails?.snippet?.publishedAt);
 
   useEffect(() => {
-    if (videoDetails) fetchChannelData();
+    const fetchData = async () => {
+      try {
+        dispatch(invisible());
+        const response = await fetchVideoDetails(videoId);
+        setVideoDetails(response.items[0]);
+        dispatch(visible());
+      } catch (error) {
+        // Handle error
+      }
+    };
+
+    fetchData();
+  }, [dispatch, videoId]);
+
+  useEffect(() => {
+    if (videoDetails) {
+      const fetchChannelData = async () => {
+        try {
+          const response = await fetchChannelDetails(
+            videoDetails?.snippet?.channelId
+          );
+          setChannelDetails(response.items[0]);
+        } catch (error) {
+          // Handle error
+        }
+      };
+
+      fetchChannelData();
+    }
   }, [videoDetails]);
 
-  const fetchdetails = async () => {
-    const response = await fetchVideoDetails(videoId);
-    console.log(response.items[0]);
-    setVideoDetails(response.items[0]);
-  };
-
-  if (!videoDetails) return <h1>loading...</h1>;
+  if (!videoDetails || !channelDetails) {
+    return <h1>Loading...</h1>;
+  }
 
   const {
     snippet: {
-      channelId,
       channelTitle,
-      publishedAt,
-      localized: { title, description }
+      localized: { title },
+      publishedAt
     },
     statistics: { commentCount, likeCount, viewCount }
   } = videoDetails;
 
-  const fetchChannelData = async () => {
-    const response = await fetchChannelDetails(channelId);
-    console.log(response.items[0]);
-    setChannelDetails(response.items[0]);
-  };
-
-  if (!channelDetails) return <h1>loading...</h1>;
   const {
     snippet: {
       thumbnails: {
@@ -67,7 +73,7 @@ const WatchPage = () => {
   } = channelDetails;
 
   return (
-    <section className="m-6 sm:flex">
+    <section className="m-6 md:flex">
       <div className="">
         <div className="player-wrapper">
           <ReactPlayer
@@ -82,7 +88,7 @@ const WatchPage = () => {
         </div>
         <div className="my-2">
           <p className="font-medium text-lg">{title}</p>
-          <section className=" bg-zinc-100 dark:bg-stone-950 pt-2 pb-4 px-1 rounded-2xl">
+          <section className="bg-zinc-100 dark:bg-stone-950 pt-2 pb-4 px-1 rounded-2xl">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
                 <img
@@ -97,34 +103,30 @@ const WatchPage = () => {
                   </p>
                 </div>
               </div>
-              <p className="bg-zinc-200  dark:bg-stone-900 px-5 py-1 rounded-full text-sm capitalize">
-                <span className="font-medium">{time} </span> ago
+              <p className="bg-zinc-200 dark:bg-stone-900 px-5 py-1 rounded-full text-sm capitalize">
+                <span className="font-medium">{time}</span> ago
               </p>
             </div>
-            <ul className="flex gap-3 text-sm ">
-              <li className="bg-zinc-200  dark:bg-stone-900 px-5 py-1 rounded-full">
-                <span className="font-medium">
-                  {useFormatViews(viewCount)}{' '}
-                </span>
+            <ul className="flex flex-wrap gap-3 text-sm">
+              <li className="bg-zinc-200 dark:bg-stone-900 px-5 py-1 rounded-full">
+                <span className="font-medium">{useFormatViews(viewCount)}</span>{' '}
                 views
               </li>
-              <li className="bg-zinc-200  dark:bg-stone-900 px-5 py-1 rounded-full">
-                <span className="font-medium">
-                  {useFormatViews(likeCount)}{' '}
-                </span>
+              <li className="bg-zinc-200 dark:bg-stone-900 px-5 py-1 rounded-full">
+                <span className="font-medium">{useFormatViews(likeCount)}</span>{' '}
                 likes
               </li>
-              <li className="bg-zinc-200  dark:bg-stone-900 px-5 py-1 rounded-full">
+              <li className="bg-zinc-200 dark:bg-stone-900 px-5 py-1 rounded-full">
                 <span className="font-medium">
-                  {useFormatViews(commentCount)}{' '}
-                </span>
+                  {useFormatViews(commentCount)}
+                </span>{' '}
                 comments
               </li>
             </ul>
           </section>
         </div>
-        <CommentContainer data={COMMENTS_EXAMPLE} />{' '}
-        {/** loads 1st 5 then click of a button loads next 5 and so on */}
+        <CommentContainer data={COMMENTS_EXAMPLE} />
+        {/** Load 1st 5 comments, then click of a button loads next 5, and so on */}
       </div>
       <VideoRecommend />
     </section>

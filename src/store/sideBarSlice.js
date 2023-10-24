@@ -7,15 +7,15 @@ const sideBarSlice = createSlice({
     toggleVisibility: state => {
       state.visibility = !state.visibility;
     },
-    invisibile: state => {
+    invisible: state => {
       state.visibility = false;
     },
-    visibile: state => {
+    visible: state => {
       state.visibility = true;
     }
   }
 });
 
-export const { toggleVisibility, invisibile, visibile } = sideBarSlice.actions; // Export the action creator
+export const { toggleVisibility, invisible, visible } = sideBarSlice.actions; // Export the action creator
 
 export default sideBarSlice.reducer; // Export the reducer

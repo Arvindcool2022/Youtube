@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './index.css';
 import { Body, Header, WatchPage, VideoContainer, Error } from './components';
+import NotFoundPage from './components/NotFoundPage';
 
 const App = () => {
   const darkMode = useSelector(store => store.colorTheme.mode);
@@ -27,7 +28,8 @@ const appRouter = createBrowserRouter([
         children: [
           { path: '/', element: <VideoContainer /> },
           { path: 'watch', element: <WatchPage /> },
-          { path: 'search', element: <VideoContainer /> }
+          { path: 'search', element: <VideoContainer /> },
+          { path: '*', element: <NotFoundPage /> }
         ],
         errorElement: <Error />
       }

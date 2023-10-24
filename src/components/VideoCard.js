@@ -21,7 +21,7 @@ const VideoCard = ({ info }) => {
 
   const viewCount = Math.floor(Math.random() * (3500000 - 1000000) + 1000000);
 
-  const publishedDate = useTimeDifference(publishedAt);
+  const time = useTimeDifference(publishedAt);
 
   const displayViews = useFormatViews(viewCount);
 

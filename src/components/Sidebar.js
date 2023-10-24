@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonList from './ButtonList';
-import { invisibile, visibile } from '../store/sideBarSlice';
+import { invisible, visible } from '../store/sideBarSlice';
 import { darkTheme, lightTheme, toggleMode } from '../store/colorTheme';
 
 const Sidebar = ({ isWatchLive }) => {
@@ -13,8 +13,8 @@ const Sidebar = ({ isWatchLive }) => {
   const [systemThemeControl, setSystemThemeControl] = useState(true);
 
   useEffect(() => {
-    if (mobile || isWatchLive) dispatch(invisibile());
-    else dispatch(visibile());
+    if (mobile || isWatchLive) dispatch(invisible());
+    else dispatch(visible());
   }, [mobile]);
 
   useEffect(() => {
