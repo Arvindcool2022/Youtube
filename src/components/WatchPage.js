@@ -24,13 +24,14 @@ const WatchPage = () => {
         dispatch(invisible());
         const response = await fetchVideoDetails(videoId);
         setVideoDetails(response.items[0]);
-        dispatch(visible());
       } catch (error) {
         // Handle error
       }
     };
 
     fetchData();
+
+    return () => dispatch(visible());
   }, [dispatch, videoId]);
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const WatchPage = () => {
           );
           setChannelDetails(response.items[0]);
         } catch (error) {
-          // Handle error
+          console.log(error);
         }
       };
 
@@ -73,8 +74,8 @@ const WatchPage = () => {
   } = channelDetails;
 
   return (
-    <section className="m-6 md:flex">
-      <div className="">
+    <section className="m-6 md:flex md:gap-4">
+      <div className=" flex-grow">
         <div className="player-wrapper">
           <ReactPlayer
             url={`https://www.youtube.com/embed/${videoId}`}
@@ -128,7 +129,7 @@ const WatchPage = () => {
         <CommentContainer data={COMMENTS_EXAMPLE} />
         {/** Load 1st 5 comments, then click of a button loads next 5, and so on */}
       </div>
-      <VideoRecommend />
+      <VideoRecommend id={videoId} />
     </section>
   );
 };

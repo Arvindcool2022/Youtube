@@ -22,7 +22,7 @@ const fetchPopularVideos = async () => {
   const url = YOUTUBE_API;
   return fetchData(url);
 };
-const searchVideos = async (searchTerm = 'popular') => {
+const searchVideos = async searchTerm => {
   const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchTerm}&part=snippet%2Cid&regionCode=US&maxResults=50&type=video`;
   return fetchData(url);
 };

@@ -14,6 +14,9 @@ module.exports = {
       lg: '1024px'
       // => @media (min-width: 1024px) { ... }
     },
+    minWidth: {
+      '3/4': '75%'
+    },
     extend: {
       fontFamily: {
         Roboto: ['Roboto', 'sans-serif']
