@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { defaultFeed } from '../store/feedDataSlice';
 import { fetchPopularVideos } from '../utils/fetchdata';
 import VideoCard, { ADVideoCard } from './VideoCard';
+import ChannelCard from './ChannelCard';
 
 const VideoContainer = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,11 @@ const VideoContainer = () => {
         </Link>
       )}
       {videoData.map(item =>
-        (item?.id?.videoId || item?.id) && item?.snippet ? (
+        item?.id?.channelId ? (
+          <Link to={'/'} key={item?.id?.channelId}>
+            <ChannelCard info={item} />
+          </Link>
+        ) : (item?.id?.videoId || item?.id) && item?.snippet ? (
           <Link
             to={'watch?v=' + (item?.id?.videoId || item?.id)}
             key={item?.id?.videoId || item?.id}

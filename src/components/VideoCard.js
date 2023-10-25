@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import useFormatViews from '../hooks/useFormatViews';
 import useTimeDifference from '../hooks/useTimeDifference';
 
@@ -26,7 +25,7 @@ const VideoCard = ({ info }) => {
   const displayViews = useFormatViews(viewCount);
 
   return (
-    <div className="text-neutral-800 dark:text-white rounded-xl w-full cursor-pointer">
+    <div className="text-neutral-800 dark:text-white rounded-xl w-full cursor-pointer hover:scale-95 transition-transform duration-200 ease-in-out">
       <div className="min-w-full mb-4">
         {' '}
         <img
@@ -42,7 +41,7 @@ const VideoCard = ({ info }) => {
           alt="user-icon"
         />
         <div>
-          <p className="font-semibold dark:font-medium leading-snug">
+          <p className="font-semibold dark:font-medium two-line-ellipsis leading-snug">
             {' '}
             {title}
           </p>

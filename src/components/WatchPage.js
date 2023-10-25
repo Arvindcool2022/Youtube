@@ -108,7 +108,7 @@ const WatchPage = () => {
                 <span className="font-medium">{time}</span> ago
               </p>
             </div>
-            <ul className="flex flex-wrap gap-3 text-sm">
+            <ul className="flex flex-wrap gap-3 text-sm mt-2">
               <li className="bg-zinc-200 dark:bg-stone-900 px-5 py-1 rounded-full">
                 <span className="font-medium">{useFormatViews(viewCount)}</span>{' '}
                 views

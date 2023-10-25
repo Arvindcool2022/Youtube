@@ -15,10 +15,10 @@ const RecommendVideoCard = ({ data }) => {
   } = data;
 
   return (
-    <div className="text-sm flex cursor-pointer gap-2 mb-4">
+    <div className="text-sm flex items-start cursor-pointer gap-2 mb-4">
       <img className="w-1/2" src={thumbnailIMG} alt="video thumbnail" />
       <div>
-        <p>{title}</p>
+        <p className=" two-line-ellipsis max-h-10">{title}</p>
         <p className="text-stone-700">{channelTitle}</p>
         <p className="text-zinc-300">{useTimeDifference(publishedAt)}</p>
       </div>
