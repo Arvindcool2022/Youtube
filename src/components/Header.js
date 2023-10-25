@@ -151,7 +151,7 @@ const Header = () => {
             </ul>
           )}
           <input
-            className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid  dark:bg-stone-900 dark:border-stone-800 border-gray-500 ps-3 flex-grow"
+            className="bg-gray-200 flex-2 rounded-s-full outline-none border border-solid  dark:bg-stone-900 dark:border-stone-800 border-gray-500 ps-3 flex-grow dark:focus:bg-stone-800"
             type="text"
             id="search"
             placeholder="Search..."

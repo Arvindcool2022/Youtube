@@ -58,7 +58,7 @@ const VideoCard = ({ info }) => {
 
 export const ADVideoCard = ({ info }) => (
   <div className="bg-slate-200 dark:bg-black dark:border dark:border-stone-900  rounded-lg w-full">
-    <span className="text-xs px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute dark:bg-zinc-500 dark:text-black z-0">
+    <span className="text-xs z-10 px-2 py-1 m-1 rounded-lg bg-zinc-900 text-white absolute dark:bg-zinc-500 dark:text-black">
       Promoted
     </span>
     <VideoCard info={info} />

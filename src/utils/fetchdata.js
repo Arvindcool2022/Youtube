@@ -23,7 +23,7 @@ const fetchPopularVideos = async () => {
   return fetchData(url);
 };
 const searchVideos = async searchTerm => {
-  const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchTerm}&part=snippet%2Cid&regionCode=US&maxResults=50`;
+  const url = `https://youtube-v31.p.rapidapi.com/search?q=${searchTerm}&part=snippet%2Cid&regionCode=IN&maxResults=50`;
   return fetchData(url);
 };
 
@@ -43,8 +43,12 @@ const fetchVideoDetails = async (videoId = 'TjnyFNxQ67Y') => {
   return fetchData(url);
 };
 
-const fetchChannelDetails = async (channelId = 'TjnyFNxQ67Y') => {
+const fetchChannelDetails = async channelId => {
   const url = `https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=${channelId}`;
+  return fetchData(url);
+};
+const fetchChannelVideoDetails = async channelId => {
+  const url = `https://youtube-v31.p.rapidapi.com/search?channelId=${channelId}&part=snippet%2Cid&order=date&maxResults=25`;
   return fetchData(url);
 };
 
@@ -54,5 +58,6 @@ export {
   fetchSuggestedVideos,
   fetchComments,
   fetchVideoDetails,
-  fetchChannelDetails
+  fetchChannelDetails,
+  fetchChannelVideoDetails
 };

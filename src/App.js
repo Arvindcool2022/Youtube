@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import './index.css';
 import { Body, Header, WatchPage, VideoContainer, Error } from './components';
 import NotFoundPage from './components/NotFoundPage';
+import ChannelPage from './components/ChannelPage';
 
 const App = () => {
   const darkMode = useSelector(store => store.colorTheme.mode);
@@ -29,6 +30,7 @@ const appRouter = createBrowserRouter([
           { path: '/', element: <VideoContainer /> },
           { path: 'watch', element: <WatchPage /> },
           { path: 'search', element: <VideoContainer /> },
+          { path: 'channel/:name/:id', element: <ChannelPage /> },
           { path: '*', element: <NotFoundPage /> }
         ],
         errorElement: <Error />

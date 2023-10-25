@@ -16,7 +16,7 @@ const ChannelCard = ({ info }) => {
       <img
         src={url}
         alt="channel Profile picture"
-        className="rounded-full mt-2 mb-4 "
+        className="rounded-full mb-4 dark:scale-75 transition-transform duration-200 ease-in"
       />
       <p className="font-medium text-lg flex gap-2">
         {title}

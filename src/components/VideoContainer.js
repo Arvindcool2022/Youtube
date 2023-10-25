@@ -32,7 +32,7 @@ const VideoContainer = () => {
   const promotedVideo = videoData[Math.floor(Math.random() * (19 - 10) + 10)];
   return (
     <section
-      className={`grid grid-cols-[auto-fit_minmax(250px,_350px)] sm:grid-cols-auto-fit-250 gap-8 mt-6 mx-4 sm:mx-2 justify-items-center justify-center ${
+      className={`grid sm:grid-cols-auto-fit-250 gap-8 mt-6 mx-4 sm:mx-2 justify-items-center justify-center ${
         isVisible ? 'w-full' : 'w-screen'
       }`}
     >
@@ -43,7 +43,15 @@ const VideoContainer = () => {
       )}
       {videoData.map(item =>
         item?.id?.channelId ? (
-          <Link to={'/'} key={item?.id?.channelId}>
+          <Link
+            to={
+              'channel/' +
+              (item?.snippet?.channelTitle || ' ').trim().split(' ').join('') +
+              '/' +
+              item?.id?.channelId
+            }
+            key={item?.id?.channelId}
+          >
             <ChannelCard info={item} />
           </Link>
         ) : (item?.id?.videoId || item?.id) && item?.snippet ? (
