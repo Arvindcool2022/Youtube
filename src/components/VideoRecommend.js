@@ -9,7 +9,7 @@ const VideoRecommend = ({ id }) => {
   useEffect(() => {
     async function fetchData() {
       const response = await fetchSuggestedVideos(id);
-      console.log(response.items);
+      // console.log(response.items);
       setVideoData(response.items);
     }
     fetchData();
@@ -18,7 +18,7 @@ const VideoRecommend = ({ id }) => {
   if (!videoData) return <h1>Loading...</h1>;
 
   return (
-    <section className="min-w-[350px] hidden lg:block">
+    <section className="max-w-[325px] xl:max-w-[400px] flex-shrink hidden lg:block">
       {videoData.map(info => (
         <Link to={'?v=' + info?.id?.videoId} key={info?.id?.videoId}>
           <RecommendVideoCard data={info} />

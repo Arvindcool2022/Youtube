@@ -58,8 +58,7 @@ const WatchPage = () => {
   const {
     snippet: {
       channelTitle,
-      localized: { title },
-      publishedAt
+      localized: { title }
     },
     statistics: { commentCount, likeCount, viewCount }
   } = videoDetails;
@@ -74,8 +73,8 @@ const WatchPage = () => {
   } = channelDetails;
 
   return (
-    <section className="m-6 md:flex md:gap-4">
-      <div className=" flex-grow">
+    <section className="m-6 md:flex md:gap-4 w-full">
+      <div className=" flex-grow  md:w-full">
         <div className="player-wrapper">
           <ReactPlayer
             url={`https://www.youtube.com/embed/${videoId}`}
@@ -126,7 +125,7 @@ const WatchPage = () => {
             </ul>
           </section>
         </div>
-        <CommentContainer data={COMMENTS_EXAMPLE} />
+        <CommentContainer data={COMMENTS_EXAMPLE} id={videoId} />
         {/** Load 1st 5 comments, then click of a button loads next 5, and so on */}
       </div>
       <VideoRecommend id={videoId} />

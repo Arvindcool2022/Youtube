@@ -34,7 +34,7 @@ const fetchSuggestedVideos = async videoId => {
 };
 
 const fetchComments = async (videoId = 'TjnyFNxQ67Y') => {
-  const url = `https://youtube-v31.p.rapidapi.com/commentThreads?part=snippet&videoId=${videoId}&maxResults=25`;
+  const url = `https://youtube-v31.p.rapidapi.com/commentThreads?part=snippet&videoId=${videoId}&maxResults=50`;
   return fetchData(url);
 };
 

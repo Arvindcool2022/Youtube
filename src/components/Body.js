@@ -3,7 +3,7 @@ import Sidebar from './Sidebar';
 import { useState } from 'react';
 
 const Body = () => {
-  const [isWatchLive, setIsWatchLive] = useState(true);
+  const [isWatchLive, setIsWatchLive] = useState(false);
 
   const toggle = s => {
     setIsWatchLive(s);

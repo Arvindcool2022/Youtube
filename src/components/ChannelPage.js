@@ -64,7 +64,7 @@ const ChannelPage = () => {
   } = channelDetails;
 
   return (
-    <section className="mx-4 my-8 overflow-hidden">
+    <section className="mx-4 my-8 w-full overflow-hidden">
       <div className="flex items-center gap-3 pb-4 border-b border-b-gray-700">
         <img src={url} className="rounded-full max-h-32" />
         <div>
@@ -84,8 +84,8 @@ const ChannelPage = () => {
         <div
           className={`grid grid-cols-1 ${
             isVisible
-              ? 'md:grid-cols-2 lg:grid-cols-3'
-              : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+              ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+              : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
           } gap-8 mt-6 mx- sm:mx-2 justify-items-center justify-center`}
         >
           {videoData.map(info => (
